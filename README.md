@@ -1,16 +1,29 @@
 # Tempo Frontend challenge
 
 # Solution Improvement
+* Fix critical vulnerability
+* Ignore env file to improve security
+* add script to show coverage
+* fix tests
+* add more tests
+* improve styles
+* improve pattern
+* improve logic
 
-### Describe what you have improved in the solution
+---
+## To Run the project you must:
 
-## To Run the project you must run:
+### add .env file
+```bash
+cp .env.example .env
+```
 
+### install dependencies
 ```
 npm install
 ```
 
-## after the installation finished, you can run:
+### after the installation finished, you can run:
 
 ```
 npm start
@@ -18,8 +31,15 @@ npm start
 
 #### The project will open in your browser with the following url http://localhost:3000;
 
-## To run the tests yo must run
+---
+## To run the tests you must run
 
 ```
 npm run test
+```
+
+## To run the tests with coverage you must run
+
+```
+npm run test:cov
 ```

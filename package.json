@@ -1,6 +1,6 @@
 {
   "name": "teams",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -21,6 +21,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:cov": "react-scripts test --coverage",
     "eject": "react-scripts eject",
     "tsc-check": "tsc --noEmit",
     "prettier": "prettier --config ./.prettierrc.json --write './**/*.{js,tsx,ts}'",
