@@ -1,44 +1,35 @@
-import * as React from 'react';
+import React from 'react';
 import {useNavigate} from 'react-router-dom';
-import {Teams, UserData} from 'types';
+import {CardProps} from 'types';
 import {Container} from './styles';
 
-interface Props {
-    id?: string;
-    url?: string;
-    columns: Array<{
-        key: string;
-        value: string;
-    }>;
-    hasNavigation?: boolean;
-    navigationProps?: UserData | Teams;
-}
-
-const Card = ({
+const Card: React.FC<CardProps> = ({
     id,
     columns,
     url,
     hasNavigation = true,
     navigationProps = null,
-}: Props): JSX.Element => {
+}: CardProps) => {
     const navigate = useNavigate();
+
+    const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
+        e.preventDefault();
+        if (hasNavigation && url) {
+            navigate(url, {
+                state: navigationProps,
+            });
+        }
+    };
 
     return (
         <Container
-            data-testid={`cardContainer-${id}`}
+            data-testid={id ? `cardContainer-${id}` : 'cardContainer'}
             hasNavigation={hasNavigation}
-            onClick={(e: Event) => {
-                if (hasNavigation) {
-                    navigate(url, {
-                        state: navigationProps,
-                    });
-                }
-                e.preventDefault();
-            }}
+            onClick={handleClick}
         >
-            {columns.map(({key: columnKey, value}) => (
-                <p key={columnKey}>
-                    <strong>{columnKey}</strong>&nbsp;{value}
+            {columns.map(({key, value}) => (
+                <p key={key}>
+                    <strong>{key}</strong>&nbsp;{value}
                 </p>
             ))}
         </Container>

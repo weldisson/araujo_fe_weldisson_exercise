@@ -1,16 +1,10 @@
-import * as React from 'react';
-import {ListItem} from 'types';
+import React from 'react';
+import {ListProps} from 'types';
 import Card from '../Card';
 import {Spinner} from '../Spinner';
 import {Container} from './styles';
 
-interface Props {
-    items?: ListItem[];
-    hasNavigation?: boolean;
-    isLoading: string;
-}
-
-const List = ({items, hasNavigation = true, isLoading}: Props) => {
+const List: React.FC<ListProps> = ({items, hasNavigation = true, isLoading}: ListProps) => {
     return (
         <Container>
             {isLoading && <Spinner />}
