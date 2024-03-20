@@ -29,7 +29,36 @@ describe('Teams', () => {
     });
 
     it('should render spinner while loading', async () => {
-        // TODO - Add code for this test
+        const mockTeamsData = [
+            {
+                id: '1',
+                name: 'Team1',
+            },
+            {
+                id: '2',
+                name: 'Team2',
+            },
+        ];
+
+        jest.spyOn(API, 'getTeams').mockImplementation(() => {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    resolve(mockTeamsData);
+                }, 1000);
+            });
+        });
+
+        render(<Teams />);
+
+        expect(screen.getByTestId('spinner')).toBeInTheDocument();
+
+        act(() => {
+            jest.advanceTimersByTime(1000);
+        });
+
+        await waitFor(() => {
+            expect(screen.queryByTestId('spinner')).toBeNull();
+        });
     });
 
     it('should render teams list', async () => {
@@ -50,5 +79,6 @@ describe('Teams', () => {
             expect(screen.getByText('Team1')).toBeInTheDocument();
         });
         expect(screen.getByText('Team2')).toBeInTheDocument();
+        expect(screen.getByTestId('search-form')).toBeInTheDocument();
     });
 });

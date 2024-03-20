@@ -29,19 +29,19 @@ describe('Header', () => {
     });
 
     it('should render back button in header', () => {
-        render(<Header title="Header" showBackButton />);
+        render(<Header title="Header" enableBackButton />);
 
         expect(screen.getByRole('button')).toBeInTheDocument();
     });
 
     it('should not render back button in header', () => {
-        render(<Header title="Header" showBackButton={false} />);
+        render(<Header title="Header" enableBackButton={false} />);
 
-        expect(screen.queryByRole('button')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button')).toBeDisabled();
     });
 
     it('should navigate back when back button is clicked', () => {
-        render(<Header title="Header" showBackButton />);
+        render(<Header title="Header" enableBackButton />);
 
         fireEvent.click(screen.getByRole('button'));
 

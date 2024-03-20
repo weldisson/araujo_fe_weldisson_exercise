@@ -1,24 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import {useNavigate} from 'react-router-dom';
+import {HeaderProps} from 'types';
 import {HeaderContainer, NavigationHeader, BackButton, Title} from './styles';
 
-interface Props {
-    title: string;
-    showBackButton?: boolean;
-}
-
-const Header = ({title, showBackButton = true}: Props) => {
+const Header: React.FC<HeaderProps> = ({title, enableBackButton = true}: HeaderProps) => {
     const navigate = useNavigate();
+    const handleClick = () => {
+        navigate(-1);
+    };
     return (
         <HeaderContainer>
             <NavigationHeader>
-                {showBackButton && (
-                    <BackButton
-                        onClick={() => {
-                            navigate(-1);
-                        }}
-                    >
-                        🔙
+                {enableBackButton ? (
+                    <BackButton onClick={handleClick}>
+                        <img src="/chevron-left.svg" alt="Back" />
+                    </BackButton>
+                ) : (
+                    <BackButton onClick={handleClick} disabled>
+                        <img src="/chevron-left-disabled.svg" alt="Back" />
                     </BackButton>
                 )}
                 <Title>{title}</Title>

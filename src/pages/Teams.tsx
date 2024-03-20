@@ -1,13 +1,14 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {ListItem, Teams as TeamsList} from 'types';
 import {getTeams as fetchTeams} from '../api';
 import Header from '../components/Header';
 import List from '../components/List';
 import {Container} from '../components/GlobalComponents';
+import Search from '../components/Search';
 
-var MapT = (teams: TeamsList[]) => {
-    return teams.map(team => {
-        var columns = [
+const mapTeams = (teams: TeamsList[]) => {
+    return teams.map((team: TeamsList) => {
+        const columns = [
             {
                 key: 'Name',
                 value: team.name,
@@ -23,22 +24,38 @@ var MapT = (teams: TeamsList[]) => {
 };
 
 const Teams = () => {
-    const [teams, setTeams] = React.useState<any>([]);
-    const [isLoading, setIsLoading] = React.useState<any>(true);
+    const [teams, setTeams] = useState([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [originalTeams, setOriginalTeams] = useState([]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         const getTeams = async () => {
             const response = await fetchTeams();
-            setTeams(response);
+            const mappedTeams = mapTeams(response);
+            setTeams(mappedTeams);
+            setOriginalTeams(mappedTeams);
             setIsLoading(false);
         };
         getTeams();
     }, []);
 
+    const onSearchHandler = (searchTerm: string) => {
+        if (searchTerm === '') {
+            setTeams(originalTeams);
+            return;
+        }
+        const findTerm = teams.filter((team: ListItem) =>
+            team.columns[0].value.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setTeams(findTerm);
+    };
+
     return (
         <Container>
-            <Header title="Teams" showBackButton={false} />
-            <List items={MapT(teams)} isLoading={isLoading} />
+            <Header title="MyTeam" enableBackButton={false} onSearch={onSearchHandler} />
+            <h2>Teams</h2>
+            <Search onSearch={onSearchHandler} isLoading={isLoading} />
+            <List items={teams} isLoading={isLoading} />
         </Container>
     );
 };
